@@ -54,3 +54,31 @@
       [1] " <span style=\"background-color: #F1948A;\">J</span> N , but that <span style=\"background-color: #E74C3C;\">'s</span> just the N it works . <br>"
       
 
+---
+
+    Code
+      res.table
+    Output
+      $table
+      # A tibble: 13 x 8
+         sentence_id token_id t         lambdaG sentence_lambdaG zlambdaG
+               <int>    <int> <chr>       <dbl>            <dbl>    <dbl>
+       1           1        1 J          0.741            -0.767    1.28 
+       2           1        2 N          0.325            -0.767    0.616
+       3           1        3 ,         -1.08             -0.767   -1.64 
+       4           1        4 but       -0.122            -0.767   -0.101
+       5           1        5 that       0.148            -0.767    0.331
+       6           1        6 's         1.03             -0.767    1.75 
+       7           1        7 just      -1.05             -0.767   -1.58 
+       8           1        8 the        0.178            -0.767    0.381
+       9           1        9 N          0.0619           -0.767    0.194
+      10           1       10 it        -0.773            -0.767   -1.15 
+      11           1       11 works     -0.167            -0.767   -0.174
+      12           1       12 .          0.0786           -0.767    0.221
+      13           1       13 ___EOS___ -0.141            -0.767   -0.132
+      # i 2 more variables: token_contribution <dbl>, sent_contribution <dbl>
+      
+      $colourcoded_text
+      [1] "<table border=\"1\" style=\"border-collapse: collapse; font-family: sans-serif;\"><thead><tr><th>sentence_id</th><th>token_id</th><th>token</th><th>&lambda;<sub>G</sub></th><th>sentence &lambda;<sub>G</sub></th><th>token contribution (%)</th><th>sentence contribution (%)</th></tr></thead><tbody><tr style=\"background-color: #fdedec;\"><td>1</td><td>1</td><td>J</td><td>0.741</td><td>-0.767</td><td>28.9</td><td>-100</td></tr><tr style=\"background-color: #FFFFFF;\"><td>1</td><td>2</td><td>N</td><td>0.325</td><td>-0.767</td><td>12.68</td><td>-100</td></tr><tr><td>1</td><td>3</td><td>,</td><td>-1.082</td><td>-0.767</td><td>-32.48</td><td>-100</td></tr><tr><td>1</td><td>4</td><td>but</td><td>-0.122</td><td>-0.767</td><td>-3.65</td><td>-100</td></tr><tr style=\"background-color: #FFFFFF;\"><td>1</td><td>5</td><td>that</td><td>0.148</td><td>-0.767</td><td>5.75</td><td>-100</td></tr><tr style=\"background-color: #f5b7b1;\"><td>1</td><td>6</td><td>'s</td><td>1.032</td><td>-0.767</td><td>40.24</td><td>-100</td></tr><tr><td>1</td><td>7</td><td>just</td><td>-1.046</td><td>-0.767</td><td>-31.39</td><td>-100</td></tr><tr style=\"background-color: #FFFFFF;\"><td>1</td><td>8</td><td>the</td><td>0.178</td><td>-0.767</td><td>6.96</td><td>-100</td></tr><tr style=\"background-color: #FFFFFF;\"><td>1</td><td>9</td><td>N</td><td>0.062</td><td>-0.767</td><td>2.41</td><td>-100</td></tr><tr><td>1</td><td>10</td><td>it</td><td>-0.773</td><td>-0.767</td><td>-23.22</td><td>-100</td></tr><tr><td>1</td><td>11</td><td>works</td><td>-0.167</td><td>-0.767</td><td>-5.02</td><td>-100</td></tr><tr style=\"background-color: #FFFFFF;\"><td>1</td><td>12</td><td>.</td><td>0.079</td><td>-0.767</td><td>3.07</td><td>-100</td></tr><tr><td>1</td><td>13</td><td>[EOS]</td><td>-0.141</td><td>-0.767</td><td>-4.24</td><td>-100</td></tr></tbody></table>"
+      
+

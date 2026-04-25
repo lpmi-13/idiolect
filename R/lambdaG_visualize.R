@@ -7,7 +7,7 @@
 #' @param ref.data The reference dataset as a `quanteda` tokens object with the tokens being sentences (e.g. the output of [tokenize_sents()]).
 #' @param N The order of the model. Default is 10.
 #' @param r The number of iterations. Default is 30.
-#' @param output A string detailing the file type of the colour-coded text output. Either "html" (default) or "latex".
+#' @param output A string detailing the type of the colour-coded output. Either "html" (default), which renders the Q text as a heatmap, "latex", which does the same in LaTeX, or "table", which renders an HTML table with one row per token (each row colour-coded with the same scheme as the heatmap).
 #' @param print A string indicating the path and filename to save the colour-coded text file. If left empty (default), then nothing is printed.
 #' @param scale A string indicating what scale to use to colour-code the text file. If "absolute" (default) then the raw \eqn{\lambda_G} is used; if "relative", then the z-score of \eqn{\lambda_G} over the Q data is used instead, thus showing relative importance.
 #' @param negative Logical. If TRUE then negative values of \eqn{\lambda_G} are color-coded in blue, otherwise (default) only the positive values of \eqn{\lambda_G} are displayed in red. This only applies to HTML output.
@@ -90,6 +90,10 @@ lambdaG_visualize <- function(q.data, k.data, ref.data, N = 10, r = 30, output =
   }else if(output == "latex"){
 
     cc.text <- color_coding_latex(llr.table, scale)
+
+  }else if(output == "table"){
+
+    cc.text <- color_coding_table_html(llr.table, scale, negative = negative)
 
   }
 
@@ -180,7 +184,7 @@ loglikelihood_table_avgllrs <- function(q.data, k.data, ref.data, r, N, order.by
   return(final.table)
 
 }
-color_coding_html <- function(llr.table, scale, negative){
+compute_html_colors <- function(llr.table, scale, negative){
 
   if(scale == "absolute"){
 
@@ -243,6 +247,13 @@ color_coding_html <- function(llr.table, scale, negative){
     }
 
   }
+
+  return(table2)
+
+}
+color_coding_html <- function(llr.table, scale, negative){
+
+  table2 <- compute_html_colors(llr.table, scale, negative)
 
   string = c()
 
@@ -314,5 +325,54 @@ color_coding_latex <- function(llr.table, scale){
   }
 
   return(string)
+
+}
+color_coding_table_html <- function(llr.table, scale, negative){
+
+  table2 <- compute_html_colors(llr.table, scale, negative) |>
+    dplyr::mutate(t = dplyr::if_else(t == "___EOS___", "[EOS]", t),
+                  lambdaG = round(lambdaG, 3))
+
+  header <- paste0(
+    "<thead><tr>",
+    "<th>sentence_id</th>",
+    "<th>token_id</th>",
+    "<th>token</th>",
+    "<th>&lambda;<sub>G</sub></th>",
+    "<th>sentence &lambda;<sub>G</sub></th>",
+    "<th>token contribution (%)</th>",
+    "<th>sentence contribution (%)</th>",
+    "</tr></thead>"
+  )
+
+  rows <- character(nrow(table2))
+  for (i in seq_len(nrow(table2))) {
+
+    style <- if (table2$color[i] != "") {
+      paste0(" style=\"background-color: ", table2$color[i], ";\"")
+    } else {
+      ""
+    }
+
+    rows[i] <- paste0(
+      "<tr", style, ">",
+      "<td>", table2$sentence_id[i], "</td>",
+      "<td>", table2$token_id[i], "</td>",
+      "<td>", table2$t[i], "</td>",
+      "<td>", table2$lambdaG[i], "</td>",
+      "<td>", table2$sentence_lambdaG[i], "</td>",
+      "<td>", table2$token_contribution[i], "</td>",
+      "<td>", table2$sent_contribution[i], "</td>",
+      "</tr>"
+    )
+
+  }
+
+  paste0(
+    "<table border=\"1\" style=\"border-collapse: collapse; font-family: sans-serif;\">",
+    header,
+    "<tbody>", paste(rows, collapse = ""), "</tbody>",
+    "</table>"
+  )
 
 }

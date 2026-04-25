@@ -1,5 +1,7 @@
 # idiolect (development version)
 
+* `lambdaG_visualize()` accepts `output = "table"`, which renders the questioned text as a colour-coded HTML table with one row per token (sentence id, token id, token, lambdaG, sentence lambdaG, token/sentence contribution) instead of the inline heatmap.
+
 * associated Journal of Open Source Software paper now published and should be used as reference.
 
 * `contentmask()` also accepts sentence-tokenised corpora (the outputs of `tokenize_sents()`) as input, this option also allowing parallel processing.
